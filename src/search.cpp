@@ -1302,6 +1302,14 @@ moves_loop:  // When in check, search starts here
                 extension = -3;
         }
 
+        ss->extension = extension;
+
+        // Further extend in cases where the search tree has repeatedly been singular
+        if (extension > 0 && (ss - 1)->extension + ss->extension >= 2)
+        {
+            extension += 1;
+        }
+
         u64 nodeCount = rootNode ? u64(nodes) : 0;
 
         // Step 17. Make the move
