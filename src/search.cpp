@@ -1305,7 +1305,8 @@ moves_loop:  // When in check, search starts here
         ss->extension = extension;
 
         // Further extend in cases where the search tree has repeatedly been singular
-        if (extension > 0 && (ss - 1)->extension + ss->extension >= 3)
+        if (extension > 0 && (ss - 1)->extension && (ss - 2)->extension
+            && (ss - 1)->extension + (ss - 2)->extension >= 3)
         {
             extension += 1;
         }
