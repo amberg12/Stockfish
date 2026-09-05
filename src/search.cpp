@@ -808,6 +808,7 @@ Value Search::Worker::search(
     (ss - 1)->reduction = 0;
     ss->statScore       = 0;
     (ss + 2)->cutoffCnt = 0;
+    ss->extension       = 0;
 
     const auto correctionValue = correction_value(*this, pos, ss);
 
