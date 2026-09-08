@@ -1257,8 +1257,8 @@ moves_loop:  // When in check, search starts here
 
             if (value < singularBeta)
             {
-                const bool compoundingExtensions = (ss - 2)->extension > 0 && (ss - 4)->extension > 0
-                                                 && (ss - 2)->extension + (ss - 4) -> extension >= 3;
+                const bool compoundingExtensions = (ss - 1)->extension > 0 && (ss - 2)->extension > 0
+                                                 && (ss - 1)->extension + (ss - 2) -> extension >= 3;
 
                 int corrValAdj   = std::abs(correctionValue) / 198368;
                 int doubleMargin = -2 + 204 * PvNode - 152 * !ttCapture - corrValAdj
