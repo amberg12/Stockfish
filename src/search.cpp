@@ -1307,6 +1307,8 @@ moves_loop:  // When in check, search starts here
                 extension = -3;
         }
 
+        ss->extension = extension;
+
         u64 nodeCount = rootNode ? u64(nodes) : 0;
 
         // Step 17. Make the move
