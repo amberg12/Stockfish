@@ -808,6 +808,7 @@ Value Search::Worker::search(
     (ss - 1)->reduction = 0;
     ss->statScore       = 0;
     (ss + 2)->cutoffCnt = 0;
+    ss->extension       = 0;
 
     const auto correctionValue = correction_value(*this, pos, ss);
 
@@ -1256,9 +1257,13 @@ moves_loop:  // When in check, search starts here
 
             if (value < singularBeta)
             {
+                const bool compoundingTree = (ss - 2)->extension > 0 && (ss - 4)->extension > 0
+                                           && (ss - 2)->extension + (ss - 4) -> extension >= 3;
+
                 int corrValAdj   = std::abs(correctionValue) / 198368;
                 int doubleMargin = -2 + 204 * PvNode - 152 * !ttCapture - corrValAdj
-                                 - 1175 * ttMoveHistory / 114178 - (ss->ply > rootDepth) * 38;
+                                 - 1175 * ttMoveHistory / 114178 - (ss->ply > rootDepth) * 38
+                                 + 25 * compoundingTree;
                 int tripleMargin = 70 + 279 * PvNode - 188 * !ttCapture + 81 * ss->ttPv - corrValAdj
                                  - (ss->ply > rootDepth) * 43;
 
