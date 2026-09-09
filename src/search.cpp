@@ -809,6 +809,7 @@ Value Search::Worker::search(
     ss->statScore              = 0;
     (ss + 2)->cutoffCnt        = 0;
     (ss + 1)->priorNMPFailHigh = 0;
+    ss->extension              = 0;
 
     const auto correctionValue = correction_value(*this, pos, ss);
 
@@ -1307,8 +1308,10 @@ moves_loop:  // When in check, search starts here
             // If the ttMove is assumed to fail high over current beta or
             // if we are on a cutNode
             else if (ttData.value >= beta || cutNode)
-                extension = -3;
+                extension = -3 + (ss-2)->extension >= 1;
         }
+
+        ss->extension = extension;
 
         u64 nodeCount = rootNode ? u64(nodes) : 0;
 
