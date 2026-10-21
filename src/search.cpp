@@ -887,6 +887,8 @@ Value Search::Worker::search(
     if (priorReduction >= 2 && depth >= 2 && ss->staticEval + (ss - 1)->staticEval > 166)
         depth--;
 
+    const bool deservedReduction = priorReduction >= 4 && ss->staticEval + (ss - 1)->staticEval > 200;
+
     // Step 6. At non-PV nodes we check for an early TT cutoff. Note that we
     //         always check the validity of the TT value because of access races.
     if (!PvNode && !excludedMove && is_valid(ttData.value)
@@ -1025,7 +1027,7 @@ Value Search::Worker::search(
 
         Value futilityMargin = futilityMult * depth
                              - (2789 * improving + 335 * opponentWorsening) * futilityMult / 1024
-                             + std::abs(correctionValue) / 198435;
+                             + std::abs(correctionValue) / 198435 - 300 * deservedReduction;
 
         if (eval - futilityMargin >= beta)
             return (661 * beta + 363 * eval) / 1024;
